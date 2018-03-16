@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Unit ListTVC-->
+        <!--Course Units ListTVC-->
         <scene sceneID="p7d-Ts-gJ0">
             <objects>
-                <tableViewController id="g0e-km-0L9" customClass="UnitListTVC" customModule="MyProgress" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="g0e-km-0L9" customClass="CourseUnitsListTVC" customModule="MyProgress" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mi4-jb-Gmc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -49,7 +49,13 @@
                             <outlet property="delegate" destination="g0e-km-0L9" id="SBX-31-RUH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="kVd-PQ-Rn1"/>
+                    <navigationItem key="navigationItem" id="kVd-PQ-Rn1">
+                        <barButtonItem key="rightBarButtonItem" title="Info" id="VtE-Qb-Nz5">
+                            <connections>
+                                <action selector="showSettings:" destination="g0e-km-0L9" id="YdK-It-CV4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="wOR-OZ-hVW" kind="show" identifier="ShowUnitLessons" id="Xwx-Sj-MRa"/>
                     </connections>
@@ -122,7 +128,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AOy-Rs-a0L">
-                                            <rect key="frame" x="16" y="0.0" width="319" height="43"/>
+                                            <rect key="frame" x="16" y="0.0" width="319" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>

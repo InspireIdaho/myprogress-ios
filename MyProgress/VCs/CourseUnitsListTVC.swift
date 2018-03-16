@@ -1,4 +1,4 @@
-//  UnitListTVC.swift
+//  CourseUnitsListTVC.swift
 //
 //  Copyright © 2018 InspireIdaho under MIT License.
 
@@ -6,20 +6,50 @@ import UIKit
 
 class CourseUnitsListTVC: UITableViewController {
     
-    var lessonUnits: [CourseUnit] = []
-    var progressNodeGraph: ProgressNode?
-
+    var course: Course?
+    //var progressNodeGraph: ProgressNode?
+    
+    @IBAction func saveProgress(_ sender: Any) {
+        
+        // allow model methods to throw errors to UI
+        do {
+            let count = try ProgressNode.saveCurrentProgress()
+            
+        } catch {
+            // since in UI, can easily alert user
+            let alert = UIAlertController(title: "Save Error", message: "Progress not saved", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Bummer", style: .default, handler: nil))
+            show(alert, sender: nil)
+        }
+    }
+    
+    @IBAction func showSettings(_ sender: Any) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        lessonUnits = LessonNode.loadData()
-        //print("loaded \(lessonUnits.count) units")
+        course = Course.loadData()
+        print("Finished loading Course outline")
         
-        if progressNodeGraph == nil {
-            progressNodeGraph = ProgressNode.createProgressGraph(units: lessonUnits)
+        if let course = course {
+            if ProgressNode.progressNodeGraph == nil {
+                ProgressNode.progressNodeGraph = ProgressNode.createProgressGraph(course: course)
+                print("Finished initializing _empty_ ProgressNodes for course")
+            }
+            
+            do {
+                let count = try ProgressNode.loadCurrentProgress()
+                print("Loaded \(count) saved ProgressNodes")
+            } catch {
+                // since in UI, can easily alert user
+                let alert = UIAlertController(title: "Load Error", message: "Prior Progress not loaded", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Bummer", style: .default, handler: nil))
+                show(alert, sender: nil)
+            }
+
         }
         
-        //print(progressNodeGraph!.totalLeafs)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -27,11 +57,19 @@ class CourseUnitsListTVC: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
 
     // MARK: - Table view data source
 
@@ -42,7 +80,11 @@ class CourseUnitsListTVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return lessonUnits.count
+        if let course = course {
+            return course.units.count
+        } else {
+            return 0
+        }
     }
 
     
@@ -50,10 +92,13 @@ class CourseUnitsListTVC: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UnitProgressCell", for: indexPath)
 
         // Configure the cell...
-        let unit = lessonUnits[indexPath.row]
-        cell.textLabel?.text = unit.title
-        if let unitProgress = ProgressNode.registry[unit.indexPath] {
-            cell.detailTextLabel?.text = "\(unitProgress.completedLeafs) / \(unitProgress.totalLeafs)"
+        if let course = course {
+            
+            let unit = course.units[indexPath.row]
+            cell.textLabel?.text = unit.title
+            if let unitProgress = ProgressNode.registry[unit.indexPath] {
+                cell.detailTextLabel?.text = "\(unitProgress.completedLeafs) / \(unitProgress.totalLeafs)"
+            }
         }
 
         return cell
@@ -112,9 +157,11 @@ class CourseUnitsListTVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // get unit for row
-        let unit = lessonUnits[indexPath.row]
+        if let course = course {
+
+        let unit = course.units[indexPath.row]
         performSegue(withIdentifier: "ShowUnitLessons", sender: unit)
-        
+        }
     }
 
 }

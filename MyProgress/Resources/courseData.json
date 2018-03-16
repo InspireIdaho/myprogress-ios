@@ -1,0 +1,141 @@
+{
+    "title" : "App Dev with Swift",
+    "version" :  1,
+    "units" :
+[
+  {
+    "title" : "Unit 1: Getting Started",
+    "indexPath" : { "indexes" : [1] },
+    "lessons" : [
+      {
+        "title" : "Intro to Swift and Playgrounds",
+        "hasLab" : true,
+        "reviewQuestions" : 4,
+        "indexPath" : { "indexes" : [1, 1] }
+      },
+      {
+        "title" : "Constants, Vars, and Data Types",
+        "hasLab" : true,
+        "reviewQuestions" : 7,
+        "indexPath" : { "indexes" : [1, 2] }
+      },
+      {
+        "title" : "Operators",
+        "hasLab" : true,
+        "reviewQuestions" : 6,
+        "indexPath" : { "indexes" : [1, 3] }
+      },
+      {
+        "title" : "Control Flow",
+        "hasLab" : true,
+        "reviewQuestions" : 10,
+        "indexPath" : { "indexes" : [1, 4] }
+      },
+      {
+        "title" : "Xcode",
+        "hasLab" : false,
+        "reviewQuestions" : 4,
+        "indexPath" : { "indexes" : [1, 5] }
+      },
+      {
+        "title" : "Building, Running, Debugging",
+        "hasLab" : true,
+        "reviewQuestions" : 3,
+        "indexPath" : { "indexes" : [1, 6] }
+      },
+      {
+        "title" : "Documentation",
+        "hasLab" : true,
+        "reviewQuestions" : 0,
+        "indexPath" : { "indexes" : [1, 7] }
+      },
+      {
+        "title" : "Interface Builder Basics",
+        "hasLab" : false,
+        "reviewQuestions" : 6,
+        "indexPath" : { "indexes" : [1, 8] }
+      },
+      {
+        "title" : "Guided Project - Light",
+        "hasLab" : false,
+        "reviewQuestions" : 0,
+        "indexPath" : { "indexes" : [1, 9] }
+      }
+    ],
+  },
+ {
+    "title" : "Unit 2: Intro to UIKit",
+    "indexPath" : { "indexes" : [2] },
+    "lessons" : [
+      {
+        "title" : "Strings",
+        "hasLab" : true,
+        "reviewQuestions" : 5,
+        "indexPath" : { "indexes" : [2, 1] }
+      },
+      {
+        "title" : "Functions",
+        "hasLab" : true,
+        "reviewQuestions" : 4,
+        "indexPath" : { "indexes" : [2, 2] }
+      },
+      {
+        "title" : "Structures",
+        "hasLab" : true,
+        "reviewQuestions" : 3,
+        "indexPath" : { "indexes" : [2, 3] }
+      },
+      {
+        "title" : "Classes, Inheritance",
+        "hasLab" : true,
+        "reviewQuestions" : 3,
+        "indexPath" : { "indexes" : [2, 4] }
+      },
+      {
+        "title" : "Collections",
+        "hasLab" : true,
+        "reviewQuestions" : 2,
+        "indexPath" : { "indexes" : [2, 5] }
+      },
+      {
+        "title" : "Loops",
+        "hasLab" : true,
+        "reviewQuestions" : 2,
+        "indexPath" : { "indexes" : [2, 6] }
+      },
+      {
+        "title" : "Intro to UIKit",
+        "hasLab" : true,
+        "reviewQuestions" : 5,
+        "indexPath" : { "indexes" : [2, 7] }
+      },
+      {
+        "title" : "Displaying Data",
+        "hasLab" : true,
+        "reviewQuestions" : 0,
+        "indexPath" : { "indexes" : [2, 8] }
+      },
+      {
+        "title" : "Controls in Action",
+        "hasLab" : true,
+        "reviewQuestions" : 6,
+        "indexPath" : { "indexes" : [2, 9] }
+      },
+      {
+        "title" : "Auto Layout and Stack Views",
+        "hasLab" : true,
+        "reviewQuestions" : 5,
+        "indexPath" : { "indexes" : [2, 10] }
+      },
+      {
+        "title" : "Guided Project: Apple Pie",
+        "hasLab" : false,
+        "reviewQuestions" : 0,
+        "indexPath" : { "indexes" : [2, 11] }
+      },
+
+    ],
+  }
+]
+
+}
