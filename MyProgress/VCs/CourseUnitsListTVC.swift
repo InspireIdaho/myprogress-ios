@@ -13,7 +13,7 @@ class CourseUnitsListTVC: UITableViewController {
         
         // allow model methods to throw errors to UI
         do {
-            let count = try ProgressNode.saveCurrentProgress()
+            let _ = try ProgressNode.saveCurrentProgress()
             
         } catch {
             // since in UI, can easily alert user
@@ -31,6 +31,8 @@ class CourseUnitsListTVC: UITableViewController {
 
         course = Course.loadData()
         print("Finished loading Course outline")
+        
+        title = course?.title
         
         if let course = course {
             if ProgressNode.progressNodeGraph == nil {
@@ -50,12 +52,6 @@ class CourseUnitsListTVC: UITableViewController {
 
         }
         
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,12 +70,10 @@ class CourseUnitsListTVC: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         if let course = course {
             return course.units.count
         } else {

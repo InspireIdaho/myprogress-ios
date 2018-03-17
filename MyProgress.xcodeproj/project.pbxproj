@@ -22,6 +22,8 @@
 		F4E82756205B5FC100ED6705 /* IndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E82755205B5FC100ED6705 /* IndexPath.swift */; };
 		F4E82758205C488400ED6705 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E82757205C488400ED6705 /* Course.swift */; };
 		F4E8275A205C4D1700ED6705 /* courseData.json in Resources */ = {isa = PBXBuildFile; fileRef = F4E82759205C4D1700ED6705 /* courseData.json */; };
+		F4E8275C205C836E00ED6705 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8275B205C836E00ED6705 /* SettingsVC.swift */; };
+		F4E8275E205C838E00ED6705 /* EditDateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8275D205C838E00ED6705 /* EditDateVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		F4E82755205B5FC100ED6705 /* IndexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexPath.swift; sourceTree = "<group>"; };
 		F4E82757205C488400ED6705 /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		F4E82759205C4D1700ED6705 /* courseData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = courseData.json; sourceTree = "<group>"; };
+		F4E8275B205C836E00ED6705 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		F4E8275D205C838E00ED6705 /* EditDateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDateVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,9 +123,11 @@
 		F4E8274D205AFF4F00ED6705 /* VCs */ = {
 			isa = PBXGroup;
 			children = (
+				F4E8275B205C836E00ED6705 /* SettingsVC.swift */,
 				F4E8274E205AFFE200ED6705 /* CourseUnitsListTVC.swift */,
 				F4E82751205B1C4400ED6705 /* UnitLessonListTVC.swift */,
 				F4E82753205B1FE500ED6705 /* LessonDetailTVC.swift */,
+				F4E8275D205C838E00ED6705 /* EditDateVC.swift */,
 			);
 			path = VCs;
 			sourceTree = "<group>";
@@ -200,6 +206,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4E8275E205C838E00ED6705 /* EditDateVC.swift in Sources */,
+				F4E8275C205C836E00ED6705 /* SettingsVC.swift in Sources */,
 				F4E82754205B1FE500ED6705 /* LessonDetailTVC.swift in Sources */,
 				F4E8274F205AFFE200ED6705 /* CourseUnitsListTVC.swift in Sources */,
 				F4E82758205C488400ED6705 /* Course.swift in Sources */,

@@ -10,12 +10,17 @@ enum LessonSection: Int {
     case review
     
     func title() -> String {
-        let titles = ["Chapter Reading", "Lab Exercise", "Review Questions"]
+        let titles = ["Reading", "Lab", "Review"]
         return titles[rawValue]
     }
 }
 
 class LessonDetailTVC: UITableViewController {
+    
+    struct EditDateContext {
+        let lessonComponentName: String
+        let node: ProgressNode
+    }
 
     var lesson: LessonNode!
     
@@ -24,11 +29,7 @@ class LessonDetailTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        title = lesson.title
         
         for index in 0...2 {
             if let node = ProgressNode.registry[lesson.indexPath.appending(index)] {
@@ -71,71 +72,34 @@ class LessonDetailTVC: UITableViewController {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         
-        // Configure the cell...
-//        switch LessonSection(rawValue: indexPath.section)! {
-//        case .reading:
-            if let node = progressComponents[indexPath.section] {
-                let completed = (node.completedOn != nil)
-                cell.textLabel?.text = completed ? "Completed on: \(formatter.string(from: node.completedOn!))" : "Not Completed"
-                cell.accessoryType = completed ? .checkmark : .none
-            }
-//            break
-//        case .lab:
-//            cell.textLabel?.text = "Not Completed"
-//            break
-//        case .review:
-//            cell.textLabel?.text = "Not Completed"
-//            break
-//        }
+        if let node = progressComponents[indexPath.section] {
+            let completed = (node.completedOn != nil)
+            cell.textLabel?.text = completed ? "Completed on: \(formatter.string(from: node.completedOn!))" : "Not Completed"
+            cell.accessoryType = completed ? .detailDisclosureButton : .none
+        }
 
         return cell
     }
     
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "EditDate" {
+            if let editDateVC = segue.destination as? EditDateVC {
+                let context = sender as! EditDateContext
+                editDateVC.targetNode = context.node
+                editDateVC.title = "\(context.lessonComponentName) Completed On:"
+                editDateVC.delegate = self
+            }
+        }
+
     }
-    */
+
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // toggle completed state for row in section
@@ -144,8 +108,32 @@ class LessonDetailTVC: UITableViewController {
             node.completedOn = completed ? nil : Date()
             tableView.reloadRows(at: [indexPath], with: .fade)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        if let node = progressComponents[indexPath.section] {
+            let title = LessonSection(rawValue: indexPath.section)!.title()
+            let context = EditDateContext(lessonComponentName: title, node: node)
+            performSegue(withIdentifier: "EditDate", sender: context)
+        }
 
     }
 
 
+}
+
+extension LessonDetailTVC : EditDateVCDelegate {
+    
+    func editDateVCDidCancel() {
+        //do nothing, dismiss
+        //dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func editDateVCDidFinishWith(newdate: Date, for node: ProgressNode) {
+        node.completedOn = newdate
+        tableView.reloadData()
+        navigationController?.popViewController(animated: true)
+    }
+   
 }
