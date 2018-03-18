@@ -11,16 +11,20 @@ class CourseUnitsListTVC: UITableViewController {
     
     @IBAction func saveProgress(_ sender: Any) {
         
-        // allow model methods to throw errors to UI
-        do {
-            let _ = try ProgressNode.saveCurrentProgress()
-            
-        } catch {
-            // since in UI, can easily alert user
-            let alert = UIAlertController(title: "Save Error", message: "Progress not saved", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Bummer", style: .default, handler: nil))
-            show(alert, sender: nil)
-        }
+        
+        
+        
+        
+//        // allow model methods to throw errors to UI
+//        do {
+//            let _ = try ProgressNode.saveCurrentProgress()
+//
+//        } catch {
+//            // since in UI, can easily alert user
+//            let alert = UIAlertController(title: "Save Error", message: "Progress not saved", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "Bummer", style: .default, handler: nil))
+//            show(alert, sender: nil)
+//        }
     }
     
     @IBAction func showSettings(_ sender: Any) {

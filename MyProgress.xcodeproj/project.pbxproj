@@ -16,7 +16,6 @@
 		F4E827412059ECB400ED6705 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E827402059ECB400ED6705 /* FileManager.swift */; };
 		F4E82749205AFDE600ED6705 /* ProgressNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E82748205AFDE600ED6705 /* ProgressNode.swift */; };
 		F4E8274F205AFFE200ED6705 /* CourseUnitsListTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8274E205AFFE200ED6705 /* CourseUnitsListTVC.swift */; };
-		F4E82750205B060600ED6705 /* lessonData.json in Resources */ = {isa = PBXBuildFile; fileRef = F4E82747205AD49500ED6705 /* lessonData.json */; };
 		F4E82752205B1C4400ED6705 /* UnitLessonListTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E82751205B1C4400ED6705 /* UnitLessonListTVC.swift */; };
 		F4E82754205B1FE500ED6705 /* LessonDetailTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E82753205B1FE500ED6705 /* LessonDetailTVC.swift */; };
 		F4E82756205B5FC100ED6705 /* IndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E82755205B5FC100ED6705 /* IndexPath.swift */; };
@@ -36,7 +35,6 @@
 		F4E827322059B9A600ED6705 /* LessonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonNode.swift; sourceTree = "<group>"; };
 		F4E8273E2059C19E00ED6705 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F4E827402059ECB400ED6705 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
-		F4E82747205AD49500ED6705 /* lessonData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessonData.json; sourceTree = "<group>"; };
 		F4E82748205AFDE600ED6705 /* ProgressNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressNode.swift; sourceTree = "<group>"; };
 		F4E8274E205AFFE200ED6705 /* CourseUnitsListTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUnitsListTVC.swift; sourceTree = "<group>"; };
 		F4E82751205B1C4400ED6705 /* UnitLessonListTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitLessonListTVC.swift; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 		F4E8274B205AFF1C00ED6705 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F4E82747205AD49500ED6705 /* lessonData.json */,
 				F4E82759205C4D1700ED6705 /* courseData.json */,
 			);
 			path = Resources;
@@ -192,7 +189,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4E8272B2059B96A00ED6705 /* LaunchScreen.storyboard in Resources */,
-				F4E82750205B060600ED6705 /* lessonData.json in Resources */,
 				F4E8275A205C4D1700ED6705 /* courseData.json in Resources */,
 				F4E827282059B96A00ED6705 /* Assets.xcassets in Resources */,
 				F4E827262059B96A00ED6705 /* Main.storyboard in Resources */,

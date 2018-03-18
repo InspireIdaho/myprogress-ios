@@ -51,6 +51,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="kVd-PQ-Rn1">
+                        <barButtonItem key="leftBarButtonItem" title="Test" id="Xpm-9A-yzr">
+                            <connections>
+                                <action selector="saveProgress:" destination="g0e-km-0L9" id="Ese-ty-sCQ"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Info" id="VtE-Qb-Nz5">
                             <connections>
                                 <action selector="showSettings:" destination="g0e-km-0L9" id="YdK-It-CV4"/>

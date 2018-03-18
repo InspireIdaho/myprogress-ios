@@ -169,9 +169,10 @@ class ProgressNode : Codable {
         let progressDataURL =  URL(
             fileURLWithPath: "progress",
             relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("json")
+        print(progressDataURL.path)
 
         let jsonDecoder = JSONDecoder()
-        jsonDecoder.dateDecodingStrategy = .iso8601
+        //jsonDecoder.dateDecodingStrategy = .iso8601
         
         let data = try Data(contentsOf: progressDataURL)
         let nodesLoaded = try jsonDecoder.decode([ProgressNode].self, from: data)
@@ -189,7 +190,7 @@ class ProgressNode : Codable {
             relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("json")
         
         let jsonEncoder = JSONEncoder()
-        jsonEncoder.dateEncodingStrategy = .iso8601
+        //jsonEncoder.dateEncodingStrategy = .iso8601
         jsonEncoder.outputFormatting = .prettyPrinted
         
         if let nodesToSave = ProgressNode.progressNodeGraph?.completedNodes() {
