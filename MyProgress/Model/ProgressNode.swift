@@ -3,6 +3,7 @@
 //  Copyright © 2018 InspireIdaho under MIT License.
 
 import Foundation
+import Alamofire
 
 /**
  Define method which Course, Units, Lessons must implement to initialize graph of tree structure for tracking progress.
@@ -15,6 +16,9 @@ protocol ProgressTrackable {
     func createProgressNode() -> ProgressNode
 }
 
+/// provide reminder to align with MongoDB type name
+typealias ObjectID = String
+
 /**
  Basic unit of tree structure for tracking participant progress.
  Full graph must be created from LessonNodes in order to allow calc of denominators (totalLeafs)
@@ -23,15 +27,19 @@ protocol ProgressTrackable {
  */
 class ProgressNode : Codable {
     
+    /// keys required to de/encode swift to json
     enum CodingKeys: String, CodingKey {
         case indexPath = "indexPath"
         case completedOn = "completedOn"
+        case dbID = "_id"
     }
     
     // MARK: - Class-level properties
 
     /// singleton dictionary to store/retrieve ProgressNodes; created at launch
     static var registry = [IndexPath : ProgressNode]()
+    
+    /// root node reference stored at class-level to facilitate saving to file
     static var progressNodeGraph: ProgressNode?
 
     // MARK: - Instance properties
@@ -46,13 +54,35 @@ class ProgressNode : Codable {
     var children: [ProgressNode]
     
     /// store date of completion (== completed), if nil then not completed
-    var completedOn: Date?
+    var completedOn: Date? {
+        didSet {
+            isDirty = true
+        }
+    }
+    
+    /// track whether in-memory rep has been updated, used to flush changes to server
+    var isDirty: Bool = false
+    
+    /// optional reference to database ID to sync with server representation
+    /// required to delete or update objects
+    var dbID: ObjectID?
+    
+    // MARK: - Computed properties
     
     /// helper computed property
     var hasCompleted: Bool {
         return (completedOn != nil)
     }
     
+    var debugDescription: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        let completedString = hasCompleted ? "\(dateFormatter.string(from: completedOn!))" : "TODO"
+        let dirtyString = isDirty ? "Changed" : "UnChanged"
+        let dbString = (dbID != nil) ? dbID! : "noID"
+        return "ProgressNode-\(indexPath)-\(completedString)-\(dirtyString)-\(dbString)"
+    }
+
     /// recursively walk tree, return total # of edge leafs (yah, I know; leaves)
     var totalLeafs: Int {
         if children.isEmpty {
@@ -95,6 +125,7 @@ class ProgressNode : Codable {
         self.parent = parent
         self.children = children
         self.completedOn = completedOn
+        self.isDirty = false
         ProgressNode.registry[indexPath] = self
     }
     
@@ -122,18 +153,23 @@ class ProgressNode : Codable {
         return completed
     }
     
+    
     // MARK: - De/Coding methods
 
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         indexPath = try values.decode(IndexPath.self, forKey: .indexPath)
         completedOn = try values.decode(Date.self, forKey: .completedOn)
+        dbID = try? values.decode(ObjectID.self, forKey: .dbID)
         children = []
         parent = nil
         
         // lookup existing node match, update its state
         let blank = ProgressNode.registry[indexPath]
         blank?.completedOn = completedOn
+        blank?.dbID = dbID
+        // reset flag, only counts if initiated by user
+        blank?.isDirty = false
     }
     
     func encode(to encoder: Encoder) throws {
@@ -143,8 +179,10 @@ class ProgressNode : Codable {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(indexPath, forKey: .indexPath)
             try container.encode(completedOn, forKey: .completedOn)
+            try container.encode(dbID, forKey: .dbID)
         }
     }
+    
     
     // MARK: - Class-level methods
 
@@ -158,48 +196,6 @@ class ProgressNode : Codable {
         return course.createProgressNode()
     }
     
-    /**
-     Loads user's progress from json file in app docs dir
-     
-     - Returns: count of ProgressNodes loaded
-     */
-    static func loadCurrentProgress() throws -> Int {
-        // assume full graph (un-completed) already initialized, stored in registry
-        
-        let progressDataURL =  URL(
-            fileURLWithPath: "progress",
-            relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("json")
-        print(progressDataURL.path)
-
-        let jsonDecoder = JSONDecoder()
-        //jsonDecoder.dateDecodingStrategy = .iso8601
-        
-        let data = try Data(contentsOf: progressDataURL)
-        let nodesLoaded = try jsonDecoder.decode([ProgressNode].self, from: data)
-        return nodesLoaded.count
-    }
-    
-    /**
-     Saves user's progress to json file in app docs dir
-     
-     - Returns: count of ProgressNodes saved
-     */
-    static func saveCurrentProgress() throws -> Int {
-        let progressDataURL =  URL(
-            fileURLWithPath: "progress",
-            relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("json")
-        
-        let jsonEncoder = JSONEncoder()
-        //jsonEncoder.dateEncodingStrategy = .iso8601
-        jsonEncoder.outputFormatting = .prettyPrinted
-        
-        if let nodesToSave = ProgressNode.progressNodeGraph?.completedNodes() {
-            let data = try jsonEncoder.encode(nodesToSave)
-            try data.write(to: progressDataURL)
-            return nodesToSave.count
-        }
-        return 0
-    }
 
     
 }

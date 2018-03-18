@@ -73,9 +73,8 @@ class LessonDetailTVC: UITableViewController {
         formatter.dateStyle = .medium
         
         if let node = progressComponents[indexPath.section] {
-            let completed = (node.completedOn != nil)
-            cell.textLabel?.text = completed ? "Completed on: \(formatter.string(from: node.completedOn!))" : "Not Completed"
-            cell.accessoryType = completed ? .detailDisclosureButton : .none
+            cell.textLabel?.text = node.hasCompleted ? "Completed on: \(formatter.string(from: node.completedOn!))" : "Not Completed"
+            cell.accessoryType = node.hasCompleted ? .detailDisclosureButton : .none
         }
 
         return cell
@@ -100,12 +99,28 @@ class LessonDetailTVC: UITableViewController {
 
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        if isMovingFromParentViewController {
+            
+            // if node isDirty, save it and all nodes upstream, compute new % complete
+            for node in progressComponents {
+                if let node = node, node.isDirty {
+                    print("about to save node: \(node.debugDescription)")
+                    
+                   // mark node
+                    // first just save it
+                    DataBroker.saveNode(node: node)
+                }
+            }
+        }
+        super.viewWillDisappear(animated)
+    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // toggle completed state for row in section
         if let node = progressComponents[indexPath.section] {
-            let completed = (node.completedOn != nil)
-            node.completedOn = completed ? nil : Date()
+            // toggle completion
+            node.completedOn = node.hasCompleted ? nil : Date()
             tableView.reloadRows(at: [indexPath], with: .fade)
         }
     }

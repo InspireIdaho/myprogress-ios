@@ -51,9 +51,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="kVd-PQ-Rn1">
-                        <barButtonItem key="leftBarButtonItem" title="Test" id="Xpm-9A-yzr">
+                        <barButtonItem key="leftBarButtonItem" title="Sync" id="Xpm-9A-yzr">
                             <connections>
-                                <action selector="saveProgress:" destination="g0e-km-0L9" id="Ese-ty-sCQ"/>
+                                <action selector="syncProgress:" destination="g0e-km-0L9" id="XNq-b2-bwo"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Info" id="VtE-Qb-Nz5">
@@ -63,6 +63,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="syncBarButton" destination="Xpm-9A-yzr" id="Pzs-tm-Cy3"/>
                         <segue destination="wOR-OZ-hVW" kind="show" identifier="ShowUnitLessons" id="Xwx-Sj-MRa"/>
                         <segue destination="b9k-bk-quG" kind="show" identifier="ShowSettings" id="EwK-N8-hBa"/>
                     </connections>

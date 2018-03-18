@@ -3,28 +3,21 @@
 //  Copyright © 2018 InspireIdaho under MIT License.
 
 import UIKit
+import Alamofire
 
 class CourseUnitsListTVC: UITableViewController {
     
+    /// the course to display
     var course: Course?
-    //var progressNodeGraph: ProgressNode?
     
-    @IBAction func saveProgress(_ sender: Any) {
+    
+    @IBOutlet var syncBarButton: UIBarButtonItem!
+    
+    @IBAction func syncProgress(_ sender: Any) {
         
+        //DataBroker.getAllProgressNodes(completion: <#() -> ()#>)
         
-        
-        
-        
-//        // allow model methods to throw errors to UI
-//        do {
-//            let _ = try ProgressNode.saveCurrentProgress()
-//
-//        } catch {
-//            // since in UI, can easily alert user
-//            let alert = UIAlertController(title: "Save Error", message: "Progress not saved", preferredStyle: .alert)
-//            alert.addAction(UIAlertAction(title: "Bummer", style: .default, handler: nil))
-//            show(alert, sender: nil)
-//        }
+
     }
     
     @IBAction func showSettings(_ sender: Any) {
@@ -45,8 +38,14 @@ class CourseUnitsListTVC: UITableViewController {
             }
             
             do {
-                let count = try ProgressNode.loadCurrentProgress()
-                print("Loaded \(count) saved ProgressNodes")
+                //let count = try DataBroker.loadCurrentProgress()
+                //print("Loaded \(count) saved ProgressNodes")
+                
+                DataBroker.getAllProgressNodes {
+                    print("finished fetch, back in UI")
+                    self.tableView.reloadData()
+                }
+                
             } catch {
                 // since in UI, can easily alert user
                 let alert = UIAlertController(title: "Load Error", message: "Prior Progress not loaded", preferredStyle: .alert)
@@ -60,6 +59,10 @@ class CourseUnitsListTVC: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // in future, check with DataBroker whether to enable "sync" button
+        // for now, disable
+        //syncBarButton.isEnabled = false
         
         tableView.reloadData()
     }
