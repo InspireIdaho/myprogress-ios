@@ -14,6 +14,12 @@ class DataBroker {
     
     static var dataServerURL = URL(string: "http://localhost:3000")
     
+    static var xauth = ""
+    
+    static var authHeaders: HTTPHeaders {
+        return ["x-auth" : xauth]
+    }
+    
     struct ResponseContainer : Codable {
         let progress: [ProgressNode]
     }
@@ -29,7 +35,6 @@ class DataBroker {
                 do {
                     let container = try jsonDecoder.decode(ResponseContainer.self, from: json)
                     print("Fetched \(container.progress.count) ProgressNodes from server")
-                    //return container.progress.count
                     completion()
                 } catch {
                     print("Get All: error during JSON decode")
@@ -38,7 +43,7 @@ class DataBroker {
         }
     }
     
-    static func postProgressNode(_ node: ProgressNode) {
+    static func createProgressNode(_ node: ProgressNode) {
         let jsonEncoder = JSONEncoder()
 
         if let data = try? jsonEncoder.encode(node) {
@@ -48,7 +53,6 @@ class DataBroker {
                         let jsonDecoder = JSONDecoder()
                         do {
                             let _ = try jsonDecoder.decode(ProgressNode.self, from: json)
-                            //print(savedNode)
                         } catch {
                             print("Post Node: error during JSON decode")
                         }
@@ -61,48 +65,59 @@ class DataBroker {
     
     static func deleteProgressNode(_ node: ProgressNode) {
         
+        let url = URL(string: "progress", relativeTo: dataServerURL)
+        let deleteURL = url!.appendingPathComponent(node.dbID!)
+        
+        Alamofire.request(deleteURL, method: .delete, headers: authHeaders).responseJSON { response in
+            
+            if let json = response.result.value as? NSDictionary {
+                
+                if let deletedID = json["_id"] as? String {
+                    if deletedID == node.dbID {
+                        print("deleted \(deletedID) OK")
+                        node.dbID = nil
+                        node.isDirty = false
+                    } else {
+                        print("Error deleting \(node.dbID!)")
+                    }
+                } else {
+                    print("Error deleting \(node.dbID!)")
+                }
+            }
+        }
     }
     
     
+    static func updateProgressNode(_ node: ProgressNode) {
+        
+        let url = URL(string: "progress", relativeTo: dataServerURL)
+        let updateURL = url!.appendingPathComponent(node.dbID!)
+        
+        Alamofire.request(updateURL, method: .patch, headers: authHeaders).responseJSON { response in
+            
+            if let json = response.result.value as? NSDictionary {
+                
+                if let updatedID = json["_id"] as? String {
+                    if updatedID == node.dbID {
+                        print("updated \(node.dbID!) OK")
+                        node.isDirty = false
+                    } else {
+                        print("Error updating \(node.dbID!)")
+                    }
+                } else {
+                    print("Error updating \(node.dbID!)")
+                }
+            }
+        }
+    }
+
     static func makeAPIcall(method: HTTPMethod, json: Parameters? = nil, handler: @escaping (DataResponse<Data>) -> Void) {
         
         let url = URL(string: "progress", relativeTo: dataServerURL)
-        
-        let xauth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWFkYTE2OTY2MTQwOWUyNGI0OGI5YjEiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTIxMzI4NDg5fQ.3gaYVci-H84C_SVdditp64NT60Mv9hFZsaZqvJn6dLg"
-        
-        let headers: HTTPHeaders = ["x-auth" : xauth]
-        
-        Alamofire.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: headers).responseData(completionHandler: handler)
+        Alamofire.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
         
     }
     
-    static func saveNode(node: ProgressNode) {
-        // at this point, node was dirty, so needs to be saved
-        // upon success, clear dirty flag
-        
-        
-        if node.hasCompleted {
-            if let dbId = node.dbID {
-                // if dbID exists, must update on server
-                print("update node not implemented")
-            } else {
-                //if no dbID, then create new on server, get ID back, save in mem
-                postProgressNode(node)
-            }
-        } else {
-            // but if not compl, && has dbID, then will need to delete from server
-            if let dbId = node.dbID {
-                // if dbID exists, must delete from server
-                print("delete node not implemented")
-
-            } else {
-                //if no dbID, no need to do anything,
-                print("no need to do anything")
-
-            }
-
-        }
-    }
     
     /**
      Loads user's progress from json file in app docs dir

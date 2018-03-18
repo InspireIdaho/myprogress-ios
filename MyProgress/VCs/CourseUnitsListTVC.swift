@@ -26,6 +26,9 @@ class CourseUnitsListTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // login?
+        DataBroker.xauth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWFkYTE2OTY2MTQwOWUyNGI0OGI5YjEiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTIxMzI4NDg5fQ.3gaYVci-H84C_SVdditp64NT60Mv9hFZsaZqvJn6dLg"
+        
         course = Course.loadData()
         print("Finished loading Course outline")
         
@@ -37,22 +40,11 @@ class CourseUnitsListTVC: UITableViewController {
                 print("Finished initializing _empty_ ProgressNodes for course")
             }
             
-            do {
-                //let count = try DataBroker.loadCurrentProgress()
-                //print("Loaded \(count) saved ProgressNodes")
-                
-                DataBroker.getAllProgressNodes {
-                    print("finished fetch, back in UI")
-                    self.tableView.reloadData()
-                }
-                
-            } catch {
-                // since in UI, can easily alert user
-                let alert = UIAlertController(title: "Load Error", message: "Prior Progress not loaded", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Bummer", style: .default, handler: nil))
-                show(alert, sender: nil)
+            
+            DataBroker.getAllProgressNodes {
+                print("finished fetch, back in UI")
+                self.tableView.reloadData()
             }
-
         }
         
     }

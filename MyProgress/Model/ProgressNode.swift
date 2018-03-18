@@ -74,6 +74,10 @@ class ProgressNode : Codable {
         return (completedOn != nil)
     }
     
+    var hasDBRep: Bool {
+        return (dbID != nil)
+    }
+    
     var debugDescription: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
@@ -153,6 +157,33 @@ class ProgressNode : Codable {
         return completed
     }
     
+    // MARK: - Save/Sync state to Server methods
+
+    func syncToServer() {
+        // at this point, node was dirty, so needs to be saved
+        // upon success, clear dirty flag
+        guard isDirty else { return }
+        
+        if hasCompleted {
+            if hasDBRep {
+                // if dbID exists, must update on server
+                DataBroker.updateProgressNode(self)
+            } else {
+                //if no dbID, then create new on server, get ID back, save in mem
+                DataBroker.createProgressNode(self)
+            }
+        } else {
+            // but if not compl, && has dbID, then will need to delete from server
+            if hasDBRep {
+                // if dbID exists, must delete from server
+                DataBroker.deleteProgressNode(self)
+            } else {
+                //if no dbID, no need to do anything,
+                print("no need to do anything")
+            }
+        }
+    }
+
     
     // MARK: - De/Coding methods
 
