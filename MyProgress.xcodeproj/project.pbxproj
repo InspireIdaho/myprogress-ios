@@ -10,6 +10,7 @@
 		F47B2C08205DE93300DC9765 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47B2BFB205DE89100DC9765 /* Alamofire.framework */; };
 		F47B2C09205DE93300DC9765 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F47B2BFB205DE89100DC9765 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F47B2C0E205EDA8C00DC9765 /* DataBroker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47B2C0D205EDA8C00DC9765 /* DataBroker.swift */; };
+		F47B2C102061D51000DC9765 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47B2C0F2061D51000DC9765 /* Config.swift */; };
 		F4E827212059B96900ED6705 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E827202059B96900ED6705 /* AppDelegate.swift */; };
 		F4E827262059B96A00ED6705 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E827242059B96A00ED6705 /* Main.storyboard */; };
 		F4E827282059B96A00ED6705 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4E827272059B96A00ED6705 /* Assets.xcassets */; };
@@ -104,6 +105,7 @@
 /* Begin PBXFileReference section */
 		F47B2BEF205DE89000DC9765 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		F47B2C0D205EDA8C00DC9765 /* DataBroker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBroker.swift; sourceTree = "<group>"; };
+		F47B2C0F2061D51000DC9765 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F4E8271D2059B96900ED6705 /* MyProgress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyProgress.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E827202059B96900ED6705 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4E827252059B96A00ED6705 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				F4E8274A205AFF0B00ED6705 /* Model */,
 				F4E827202059B96900ED6705 /* AppDelegate.swift */,
 				F47B2C0D205EDA8C00DC9765 /* DataBroker.swift */,
+				F47B2C0F2061D51000DC9765 /* Config.swift */,
 				F4E8274D205AFF4F00ED6705 /* VCs */,
 				F4E827242059B96A00ED6705 /* Main.storyboard */,
 				F4E827272059B96A00ED6705 /* Assets.xcassets */,
@@ -360,6 +363,7 @@
 				F4E8275E205C838E00ED6705 /* EditDateVC.swift in Sources */,
 				F4E8275C205C836E00ED6705 /* SettingsVC.swift in Sources */,
 				F4E82754205B1FE500ED6705 /* LessonDetailTVC.swift in Sources */,
+				F47B2C102061D51000DC9765 /* Config.swift in Sources */,
 				F4E8274F205AFFE200ED6705 /* CourseUnitsListTVC.swift in Sources */,
 				F4E82758205C488400ED6705 /* Course.swift in Sources */,
 				F4E82749205AFDE600ED6705 /* ProgressNode.swift in Sources */,
@@ -451,7 +455,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -502,7 +506,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

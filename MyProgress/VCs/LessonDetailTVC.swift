@@ -104,7 +104,7 @@ class LessonDetailTVC: UITableViewController {
             
             // if node isDirty, save it and all nodes upstream, compute new % complete
             for node in progressComponents {
-                if let node = node, node.isDirty {
+                if let node = node, node.hasChanges {
                     print("about to save node: \(node.debugDescription)")
                     
                    // mark node

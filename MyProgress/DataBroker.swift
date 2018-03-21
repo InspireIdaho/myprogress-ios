@@ -5,29 +5,43 @@
 import Foundation
 import Alamofire
 
+/// convenient trick to enable out-of-box use of Codable for JSON web response
+private struct ResponseContainer : Codable {
+    let progress: [ProgressNode]
+}
 
 /**
  The function of this class is to manage storage/retreival of the progress data.
- Whether to connect to remote API service, or cache data in local file, or when/how to sync the two data stores.
+ Currently to connect to remote API service, (in future, may cache data in local file for offline use,
+ but then issue arises of when/how to sync the two data stores).
+ 
+ All properties and methods are currently defined at class-level.
+ 
+ Class needs to be re-factored to eliminate cut-n-paste duplication; next exercise!
  */
 class DataBroker {
     
-    static var dataServerURL = URL(string: "http://localhost:3000")
     
-    static var xauth = ""
+    /// location of remote web service
+    static var dataServerURL = URL(string: Config.env.serverUrl)
     
+    /// compute headers in one place so not sprinkled everywhere
     static var authHeaders: HTTPHeaders {
-        return ["x-auth" : xauth]
+        if let token = User.principle?.token {
+            return ["x-auth" : token]
+        } else {
+            return [:]
+        }
     }
     
-    struct ResponseContainer : Codable {
-        let progress: [ProgressNode]
-    }
-    
-    static func login() {
-        
-    }
-    
+    // MARK: - ProgressNode manipulation Methods
+
+    /**
+     Initialize node/graph of tree structure for tracking progress.
+     
+     - Parameter completedOn: Optional; valid Date means *Completed*; nil means *Not Completed*
+     - Returns: the ProgressNode
+     */
     static func getAllProgressNodes(completion: @escaping () -> ()) {
         makeAPIcall(method: .get) { response in
             if let json = response.result.value {
@@ -76,7 +90,7 @@ class DataBroker {
                     if deletedID == node.dbID {
                         print("deleted \(deletedID) OK")
                         node.dbID = nil
-                        node.isDirty = false
+                        node.hasChanges = false
                     } else {
                         print("Error deleting \(node.dbID!)")
                     }
@@ -100,7 +114,7 @@ class DataBroker {
                 if let updatedID = json["_id"] as? String {
                     if updatedID == node.dbID {
                         print("updated \(node.dbID!) OK")
-                        node.isDirty = false
+                        node.hasChanges = false
                     } else {
                         print("Error updating \(node.dbID!)")
                     }
@@ -115,9 +129,52 @@ class DataBroker {
         
         let url = URL(string: "progress", relativeTo: dataServerURL)
         Alamofire.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
-        
     }
     
+    // MARK: - User-related Methods
+
+    static func makeUsersAPIcall(method: HTTPMethod, json: Parameters? = nil, handler: @escaping (DataResponse<Data>) -> Void) {
+        
+        let url = URL(string: "users", relativeTo: dataServerURL)
+        Alamofire.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
+    }
+    
+    static func makeUsersLoginCall(method: HTTPMethod, json: Parameters? = nil, handler: @escaping (DataResponse<Data>) -> Void) {
+        
+        let url = URL(string: "users", relativeTo: dataServerURL)?.appendingPathComponent("login")
+        Alamofire.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
+    }
+
+
+    static func isAuthenticated(success: @escaping () -> (), failure: @escaping () -> ()) {
+        
+        let url = URL(string: "users/me", relativeTo: dataServerURL)
+        Alamofire.request(url!, method: .get,headers: authHeaders).responseJSON { response in
+            if let json = response.result.value as? NSDictionary {
+                if let _ = json["email"] as? String {
+                    // TODO: change success closure to accept email
+                    // TODO: change to single closure with bool params for success/fail?
+                    success()
+                } else {
+                    failure()
+                }
+                
+                //expected response
+//                {
+//                    "_id" = 5aada169661409e24b48b9b1;
+//                    email = "sean@bonnerventure.com";
+//                }
+            }
+            
+        }
+
+    }
+    
+    // MARK: - Local File Storage
+    
+    // these methods were used during initial bootstrap testing
+    // no longer active, since progress now persisted at remote server
+    // left in place as possible future exercise in caching data locally, in case network unavailable
     
     /**
      Loads user's progress from json file in app docs dir

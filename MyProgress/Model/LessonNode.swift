@@ -4,15 +4,34 @@
 
 import Foundation
 
-
-
-
+/**
+ Struct to represent a lesson in the Course.
+ Lessons, along with CourseUnits, match up with iBook so don't change (unless book revised)
+ However, corresponding ProgressNode tracks participant progress.
+ */
 struct LessonNode : Codable {
-    let indexPath: IndexPath
-    let title: String
-    var hasLab: Bool = false
-    var reviewQuestions: Int = 0
     
+    /// indexPath provides simple but powerful representation of nested indices
+    /// used as the unique key to loosely-couple with corresponding ProgressNode
+    let indexPath: IndexPath
+    
+    /// title matches iBook lesson title
+    let title: String
+    
+    /// indicate if a lesson has a lab component
+    var hasLab: Bool = false
+    
+    /// record how many questions(total) the review/assessment component consists of
+    /// in future, the app may also allow tracking of individual scores, and total will be needed
+    /// if zero, then no review exists
+    var reviewQuestions: Int = 0
+}
+
+extension LessonNode: ProgressTrackable {
+
+    /**
+     Method to (recursively) create corresponding ProgressNode for Lesson and its 3 components.
+     */
     func createProgressNode() -> ProgressNode {
         // progress for this lesson
         let currentNode = ProgressNode(at: indexPath)
@@ -33,6 +52,8 @@ struct LessonNode : Codable {
         return currentNode
     }
 }
+
+
 
 extension LessonNode {
     

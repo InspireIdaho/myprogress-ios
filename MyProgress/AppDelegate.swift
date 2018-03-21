@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Need to load user from UserDefaults, if one exists.
+        // Has to be done before top ViewController loads, so here is fine.
+        User.initAtLaunch()
         return true
     }
 

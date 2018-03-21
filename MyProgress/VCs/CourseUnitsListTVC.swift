@@ -11,23 +11,14 @@ class CourseUnitsListTVC: UITableViewController {
     var course: Course?
     
     
-    @IBOutlet var syncBarButton: UIBarButtonItem!
-    
-    @IBAction func syncProgress(_ sender: Any) {
-        
-        //DataBroker.getAllProgressNodes(completion: <#() -> ()#>)
-        
-
-    }
-    
     @IBAction func showSettings(_ sender: Any) {
+        performSegue(withIdentifier: "ShowSettings", sender: self)
     }
     
+    // MARK: - View Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // login?
-        DataBroker.xauth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWFkYTE2OTY2MTQwOWUyNGI0OGI5YjEiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTIxMzI4NDg5fQ.3gaYVci-H84C_SVdditp64NT60Mv9hFZsaZqvJn6dLg"
         
         course = Course.loadData()
         print("Finished loading Course outline")
@@ -35,15 +26,22 @@ class CourseUnitsListTVC: UITableViewController {
         title = course?.title
         
         if let course = course {
-            if ProgressNode.progressNodeGraph == nil {
-                ProgressNode.progressNodeGraph = ProgressNode.createProgressGraph(course: course)
-                print("Finished initializing _empty_ ProgressNodes for course")
-            }
-            
-            
-            DataBroker.getAllProgressNodes {
-                print("finished fetch, back in UI")
-                self.tableView.reloadData()
+            ProgressNode.createProgressGraph(course: course)
+
+            if User.principle != nil {
+                DataBroker.isAuthenticated(
+                    success: {
+                        DataBroker.getAllProgressNodes {
+                            //print("finished fetch, back in UI")
+                            self.tableView.reloadData()
+                        }
+                },
+                    failure: {
+                        self.alertAuthExpired()
+                }
+                )
+            } else {
+                self.performSegue(withIdentifier: "ShowSettings", sender: self)
             }
         }
         
@@ -55,8 +53,46 @@ class CourseUnitsListTVC: UITableViewController {
         // in future, check with DataBroker whether to enable "sync" button
         // for now, disable
         //syncBarButton.isEnabled = false
+        if let course = course {
+            // safe to call mult times, will only re-build if nil
+            ProgressNode.createProgressGraph(course: course)
+        }
         
         tableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if (User.principle == nil) {
+            let alert = UIAlertController(title: "Data in Jeopardy!", message: "Warning: without registering/authenticating a user at remote web service, all progress data is stored in memory only, and will be GONE next time app is launched.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Danger is my middle name", style: .default) { alert in
+                
+            })
+            if (navigationController?.topViewController == self) {
+                self.present(alert, animated: true)
+            }
+        }
+
+    }
+    
+    // MARK: - Navigation
+    
+    /// helper
+    func alertAuthExpired() {
+        let alert = UIAlertController(title: "Login Expired!", message: "Warning: auth token has expired. Cannot retrieve existing or save new progress data at remote web service until re-login.", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Go to User Settings", style: .default) { alert in
+            self.performSegue(withIdentifier: "ShowSettings", sender: self)
+        })
+
+        alert.addAction(UIAlertAction(title: "Danger is my middle name", style: .cancel) { alert in
+            
+        })
+        if (navigationController?.topViewController == self) {
+            self.present(alert, animated: true)
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -96,44 +132,16 @@ class CourseUnitsListTVC: UITableViewController {
 
         return cell
     }
-
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // get unit for row
+        if let course = course {
+            
+            let unit = course.units[indexPath.row]
+            performSegue(withIdentifier: "ShowUnitLessons", sender: unit)
+        }
+    }
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -148,13 +156,5 @@ class CourseUnitsListTVC: UITableViewController {
     }
  
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // get unit for row
-        if let course = course {
-
-        let unit = course.units[indexPath.row]
-        performSegue(withIdentifier: "ShowUnitLessons", sender: unit)
-        }
-    }
 
 }

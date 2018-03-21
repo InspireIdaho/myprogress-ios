@@ -16,7 +16,7 @@ protocol ProgressTrackable {
     func createProgressNode() -> ProgressNode
 }
 
-/// provide reminder to align with MongoDB type name
+/// provide alignment with MongoDB type name
 typealias ObjectID = String
 
 /**
@@ -56,12 +56,12 @@ class ProgressNode : Codable {
     /// store date of completion (== completed), if nil then not completed
     var completedOn: Date? {
         didSet {
-            isDirty = true
+            hasChanges = true
         }
     }
     
     /// track whether in-memory rep has been updated, used to flush changes to server
-    var isDirty: Bool = false
+    var hasChanges: Bool = false
     
     /// optional reference to database ID to sync with server representation
     /// required to delete or update objects
@@ -78,11 +78,12 @@ class ProgressNode : Codable {
         return (dbID != nil)
     }
     
+    /// simple aid for debugging
     var debugDescription: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         let completedString = hasCompleted ? "\(dateFormatter.string(from: completedOn!))" : "TODO"
-        let dirtyString = isDirty ? "Changed" : "UnChanged"
+        let dirtyString = hasChanges ? "Changed" : "UnChanged"
         let dbString = (dbID != nil) ? dbID! : "noID"
         return "ProgressNode-\(indexPath)-\(completedString)-\(dirtyString)-\(dbString)"
     }
@@ -129,7 +130,7 @@ class ProgressNode : Codable {
         self.parent = parent
         self.children = children
         self.completedOn = completedOn
-        self.isDirty = false
+        self.hasChanges = false
         ProgressNode.registry[indexPath] = self
     }
     
@@ -162,7 +163,7 @@ class ProgressNode : Codable {
     func syncToServer() {
         // at this point, node was dirty, so needs to be saved
         // upon success, clear dirty flag
-        guard isDirty else { return }
+        guard hasChanges else { return }
         
         if hasCompleted {
             if hasDBRep {
@@ -200,7 +201,7 @@ class ProgressNode : Codable {
         blank?.completedOn = completedOn
         blank?.dbID = dbID
         // reset flag, only counts if initiated by user
-        blank?.isDirty = false
+        blank?.hasChanges = false
     }
     
     func encode(to encoder: Encoder) throws {
@@ -218,15 +219,22 @@ class ProgressNode : Codable {
     // MARK: - Class-level methods
 
     /**
-     Creates a tree-graph of empty (un-completed) ProgressNodes correspondind with the course structure:  Course, Units, Lessons, LessonComponents
+     Creates a tree-graph of empty (un-completed) ProgressNodes corresponding with the course structure:  Course, Units, Lessons, LessonComponents. Stores reference
      
      - Parameter course: Course struct to map.
-     - Returns: single ProgressNode as root(top) of tree
      */
-    static func createProgressGraph(course: Course) -> ProgressNode {
-        return course.createProgressNode()
+    static func createProgressGraph(course: Course) {
+        
+        if progressNodeGraph == nil {
+            progressNodeGraph = course.createProgressNode()
+            print("Finished initializing _empty_ ProgressNodes for course")
+        }
     }
     
+    static func clearRegistry() {
+        registry.removeAll()
+        progressNodeGraph = nil
+    }
 
     
 }
