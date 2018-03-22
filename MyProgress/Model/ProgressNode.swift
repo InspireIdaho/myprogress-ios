@@ -168,16 +168,16 @@ class ProgressNode : Codable {
         if hasCompleted {
             if hasDBRep {
                 // if dbID exists, must update on server
-                DataBroker.updateProgressNode(self)
+                ServerProxy.updateProgressNode(self)
             } else {
                 //if no dbID, then create new on server, get ID back, save in mem
-                DataBroker.createProgressNode(self)
+                ServerProxy.createProgressNode(self)
             }
         } else {
             // but if not compl, && has dbID, then will need to delete from server
             if hasDBRep {
                 // if dbID exists, must delete from server
-                DataBroker.deleteProgressNode(self)
+                ServerProxy.deleteProgressNode(self)
             } else {
                 //if no dbID, no need to do anything,
                 print("no need to do anything")

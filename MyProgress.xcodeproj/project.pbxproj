@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		F47B2C08205DE93300DC9765 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47B2BFB205DE89100DC9765 /* Alamofire.framework */; };
 		F47B2C09205DE93300DC9765 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F47B2BFB205DE89100DC9765 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F47B2C0E205EDA8C00DC9765 /* DataBroker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47B2C0D205EDA8C00DC9765 /* DataBroker.swift */; };
+		F47B2C0E205EDA8C00DC9765 /* ServerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47B2C0D205EDA8C00DC9765 /* ServerProxy.swift */; };
 		F47B2C102061D51000DC9765 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47B2C0F2061D51000DC9765 /* Config.swift */; };
+		F47B2C1A20640D6600DC9765 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F47B2C1920640D6600DC9765 /* README.md */; };
 		F4E827212059B96900ED6705 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E827202059B96900ED6705 /* AppDelegate.swift */; };
 		F4E827262059B96A00ED6705 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E827242059B96A00ED6705 /* Main.storyboard */; };
 		F4E827282059B96A00ED6705 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4E827272059B96A00ED6705 /* Assets.xcassets */; };
@@ -104,8 +105,9 @@
 
 /* Begin PBXFileReference section */
 		F47B2BEF205DE89000DC9765 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
-		F47B2C0D205EDA8C00DC9765 /* DataBroker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBroker.swift; sourceTree = "<group>"; };
+		F47B2C0D205EDA8C00DC9765 /* ServerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerProxy.swift; sourceTree = "<group>"; };
 		F47B2C0F2061D51000DC9765 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		F47B2C1920640D6600DC9765 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F4E8271D2059B96900ED6705 /* MyProgress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyProgress.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E827202059B96900ED6705 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4E827252059B96A00ED6705 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		F4E827142059B96900ED6705 = {
 			isa = PBXGroup;
 			children = (
+				F47B2C1920640D6600DC9765 /* README.md */,
 				F47B2BEF205DE89000DC9765 /* Alamofire.xcodeproj */,
 				F4E8271F2059B96900ED6705 /* MyProgress */,
 				F4E8271E2059B96900ED6705 /* Products */,
@@ -175,7 +178,7 @@
 				F4E8274C205AFF3D00ED6705 /* Extensions */,
 				F4E8274A205AFF0B00ED6705 /* Model */,
 				F4E827202059B96900ED6705 /* AppDelegate.swift */,
-				F47B2C0D205EDA8C00DC9765 /* DataBroker.swift */,
+				F47B2C0D205EDA8C00DC9765 /* ServerProxy.swift */,
 				F47B2C0F2061D51000DC9765 /* Config.swift */,
 				F4E8274D205AFF4F00ED6705 /* VCs */,
 				F4E827242059B96A00ED6705 /* Main.storyboard */,
@@ -348,6 +351,7 @@
 			files = (
 				F4E8272B2059B96A00ED6705 /* LaunchScreen.storyboard in Resources */,
 				F4E8275A205C4D1700ED6705 /* courseData.json in Resources */,
+				F47B2C1A20640D6600DC9765 /* README.md in Resources */,
 				F4E827282059B96A00ED6705 /* Assets.xcassets in Resources */,
 				F4E827262059B96A00ED6705 /* Main.storyboard in Resources */,
 			);
@@ -370,7 +374,7 @@
 				F4E827412059ECB400ED6705 /* FileManager.swift in Sources */,
 				F4E82756205B5FC100ED6705 /* IndexPath.swift in Sources */,
 				F4E82752205B1C4400ED6705 /* UnitLessonListTVC.swift in Sources */,
-				F47B2C0E205EDA8C00DC9765 /* DataBroker.swift in Sources */,
+				F47B2C0E205EDA8C00DC9765 /* ServerProxy.swift in Sources */,
 				F4E8273F2059C19E00ED6705 /* User.swift in Sources */,
 				F4E827332059B9A600ED6705 /* LessonNode.swift in Sources */,
 				F4E827212059B96900ED6705 /* AppDelegate.swift in Sources */,

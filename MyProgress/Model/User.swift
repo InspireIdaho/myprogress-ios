@@ -7,7 +7,7 @@ import Foundation
 /**
  The User class represents the participant, once registered at the REST API service.
  This class maintains state as authenticated or not, and abstracts from local persistent storage -
- currently within the UserDefaults store - as well as, managing api interactions via DataBroker
+ currently within the UserDefaults store - as well as, managing api interactions via ServerProxy
  
  */
 class User {

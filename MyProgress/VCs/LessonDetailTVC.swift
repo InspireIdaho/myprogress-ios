@@ -109,7 +109,7 @@ class LessonDetailTVC: UITableViewController {
                     
                    // mark node
                     // first just save it
-                    //DataBroker.saveNode(node: node)
+                    //ServerProxy.saveNode(node: node)
                     node.syncToServer()
                 }
             }

@@ -29,9 +29,9 @@ class CourseUnitsListTVC: UITableViewController {
             ProgressNode.createProgressGraph(course: course)
 
             if User.principle != nil {
-                DataBroker.isAuthenticated(
+                ServerProxy.isAuthenticated(
                     success: {
-                        DataBroker.getAllProgressNodes {
+                        ServerProxy.getAllProgressNodes {
                             //print("finished fetch, back in UI")
                             self.tableView.reloadData()
                         }

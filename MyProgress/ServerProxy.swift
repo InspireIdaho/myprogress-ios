@@ -1,14 +1,19 @@
-//  DataBroker.swift
+//  ServerProxy.swift
 //
 //  Copyright © 2018 InspireIdaho under MIT License.
 
 import Foundation
 import Alamofire
 
-/// convenient trick to enable out-of-box use of Codable for JSON web response
+/// convenient trick to enable out-of-box use of Codable for JSON web response/body
 private struct ResponseContainer : Codable {
     let progress: [ProgressNode]
 }
+
+private struct UpdateContainer : Codable {
+    let completedOn: Date
+}
+
 
 /**
  The function of this class is to manage storage/retreival of the progress data.
@@ -19,7 +24,7 @@ private struct ResponseContainer : Codable {
  
  Class needs to be re-factored to eliminate cut-n-paste duplication; next exercise!
  */
-class DataBroker {
+class ServerProxy {
     
     
     /// location of remote web service
@@ -37,10 +42,11 @@ class DataBroker {
     // MARK: - ProgressNode manipulation Methods
 
     /**
-     Initialize node/graph of tree structure for tracking progress.
+     Request list of ProgressNodes (for user) from api server.
+     Does not need to return the list, as the nodes are cached in ProgressNode registry
+     as they are initialized from decoder.
      
-     - Parameter completedOn: Optional; valid Date means *Completed*; nil means *Not Completed*
-     - Returns: the ProgressNode
+     - Parameter completion: handler to be called once done
      */
     static func getAllProgressNodes(completion: @escaping () -> ()) {
         makeAPIcall(method: .get) { response in
@@ -107,7 +113,22 @@ class DataBroker {
         let url = URL(string: "progress", relativeTo: dataServerURL)
         let updateURL = url!.appendingPathComponent(node.dbID!)
         
-        Alamofire.request(updateURL, method: .patch, headers: authHeaders).responseJSON { response in
+        guard let changedDate = node.completedOn else {
+            print("cannot update progress without date completedOn")
+            return
+            
+        }
+        
+        let updateObj = UpdateContainer(completedOn: changedDate)
+        let jsonEncoder = JSONEncoder()
+        
+        if let data = try? jsonEncoder.encode(updateObj) {
+            if let json = try? JSONSerialization.jsonObject(with: data) as? [String:Any] {
+
+        Alamofire.request(updateURL, method: .patch,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseJSON { response in
+
+            //let foo = response.response?.description
+            //print(foo)
             
             if let json = response.result.value as? NSDictionary {
                 
@@ -121,6 +142,8 @@ class DataBroker {
                 } else {
                     print("Error updating \(node.dbID!)")
                 }
+            }
+        }
             }
         }
     }

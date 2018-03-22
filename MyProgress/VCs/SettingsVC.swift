@@ -158,7 +158,7 @@ class SettingsVC: UIViewController {
         params["email"] = email
         params["password"] = password
         
-        DataBroker.makeUsersAPIcall(method: .post, json: params) { response in
+        ServerProxy.makeUsersAPIcall(method: .post, json: params) { response in
             if let headers = response.response?.allHeaderFields as Dictionary? {
                 //print(headers)
                 let authKey = Config.env.authHeaderKey
@@ -195,7 +195,7 @@ class SettingsVC: UIViewController {
         params["email"] = email
         params["password"] = password
 
-        DataBroker.makeUsersLoginCall(method: .post, json: params) { response in
+        ServerProxy.makeUsersLoginCall(method: .post, json: params) { response in
             if let headers = response.response?.allHeaderFields as Dictionary? {
                 //print(headers)
                 let authKey = Config.env.authHeaderKey
@@ -220,7 +220,7 @@ class SettingsVC: UIViewController {
                     self.messageLabel.text = "Login Successful"
                     self.updateNavButtons()
                     
-                    DataBroker.getAllProgressNodes() { }
+                    ServerProxy.getAllProgressNodes() { }
 
                 } else {
                     self.messageLabel.text = "Could not login"
