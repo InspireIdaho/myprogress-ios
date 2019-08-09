@@ -50,7 +50,7 @@ class ServerProxy {
      */
     static func getAllProgressNodes(completion: @escaping () -> ()) {
         makeAPIcall(method: .get) { response in
-            if let json = response.result.value {
+            if let json = response.data {
                 let jsonDecoder = JSONDecoder()
                 do {
                     let container = try jsonDecoder.decode(ResponseContainer.self, from: json)
@@ -69,7 +69,7 @@ class ServerProxy {
         if let data = try? jsonEncoder.encode(node) {
             if let json = try? JSONSerialization.jsonObject(with: data) as? [String:Any] {
                 makeAPIcall(method: .post, json: json) { response in
-                    if let json = response.result.value {
+                    if let json = response.data {
                         let jsonDecoder = JSONDecoder()
                         do {
                             let _ = try jsonDecoder.decode(ProgressNode.self, from: json)
@@ -88,11 +88,12 @@ class ServerProxy {
         let url = URL(string: "progress", relativeTo: dataServerURL)
         let deleteURL = url!.appendingPathComponent(node.dbID!)
         
-        Alamofire.request(deleteURL, method: .delete, headers: authHeaders).responseJSON { response in
+        AF.request(deleteURL, method: .delete, headers: authHeaders).responseJSON { response in
             
-            if let json = response.result.value as? NSDictionary {
+            if let possData = response.data {
+                if let json = try? JSONSerialization.jsonObject(with: possData, options: .allowFragments) as? Dictionary<String, Any> {
                 
-                if let deletedID = json["_id"] as? String {
+                    if let deletedID = json?["_id"] as? String {
                     if deletedID == node.dbID {
                         print("deleted \(deletedID) OK")
                         node.dbID = nil
@@ -103,6 +104,8 @@ class ServerProxy {
                 } else {
                     print("Error deleting \(node.dbID!)")
                 }
+                }
+                
             }
         }
     }
@@ -125,25 +128,28 @@ class ServerProxy {
         if let data = try? jsonEncoder.encode(updateObj) {
             if let json = try? JSONSerialization.jsonObject(with: data) as? [String:Any] {
 
-        Alamofire.request(updateURL, method: .patch,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseJSON { response in
-
-            //let foo = response.response?.description
-            //print(foo)
-            
-            if let json = response.result.value as? NSDictionary {
-                
-                if let updatedID = json["_id"] as? String {
-                    if updatedID == node.dbID {
-                        print("updated \(node.dbID!) OK")
-                        node.hasChanges = false
-                    } else {
-                        print("Error updating \(node.dbID!)")
+                AF.request(updateURL, method: .patch,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseJSON { response in
+                    
+                    //let foo = response.response?.description
+                    //print(foo)
+                    
+                    if let possData = response.data {
+                        
+                        if let json = try? JSONSerialization.jsonObject(with: possData, options: .allowFragments) as? Dictionary<String, Any> {
+                            
+                            if let updatedID = json?["_id"] as? String {
+                                if updatedID == node.dbID {
+                                    print("updated \(node.dbID!) OK")
+                                    node.hasChanges = false
+                                } else {
+                                    print("Error updating \(node.dbID!)")
+                                }
+                            } else {
+                                print("Error updating \(node.dbID!)")
+                            }
+                        }
                     }
-                } else {
-                    print("Error updating \(node.dbID!)")
                 }
-            }
-        }
             }
         }
     }
@@ -151,7 +157,7 @@ class ServerProxy {
     static func makeAPIcall(method: HTTPMethod, json: Parameters? = nil, handler: @escaping (DataResponse<Data>) -> Void) {
         
         let url = URL(string: "progress", relativeTo: dataServerURL)
-        Alamofire.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
+        AF.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
     }
     
     // MARK: - User-related Methods
@@ -159,22 +165,24 @@ class ServerProxy {
     static func makeUsersAPIcall(method: HTTPMethod, json: Parameters? = nil, handler: @escaping (DataResponse<Data>) -> Void) {
         
         let url = URL(string: "users", relativeTo: dataServerURL)
-        Alamofire.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
+        AF.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
     }
     
     static func makeUsersLoginCall(method: HTTPMethod, json: Parameters? = nil, handler: @escaping (DataResponse<Data>) -> Void) {
         
         let url = URL(string: "users", relativeTo: dataServerURL)?.appendingPathComponent("login")
-        Alamofire.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
+        AF.request(url!, method: method,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseData(completionHandler: handler)
     }
 
 
     static func isAuthenticated(success: @escaping () -> (), failure: @escaping () -> ()) {
         
         let url = URL(string: "users/me", relativeTo: dataServerURL)
-        Alamofire.request(url!, method: .get,headers: authHeaders).responseJSON { response in
-            if let json = response.result.value as? NSDictionary {
-                if let _ = json["email"] as? String {
+        AF.request(url!, method: .get,headers: authHeaders).responseJSON { response in
+            if let possData = response.data {
+                
+                if let json = try? JSONSerialization.jsonObject(with: possData, options: .allowFragments) as? Dictionary<String, Any> {
+                if let _ = json?["email"] as? String {
                     // TODO: change success closure to accept email
                     // TODO: change to single closure with bool params for success/fail?
                     success()
@@ -188,7 +196,7 @@ class ServerProxy {
 //                    email = "sean@bonnerventure.com";
 //                }
             }
-            
+            }
         }
 
     }
