@@ -62,7 +62,7 @@ class UnitLessonListTVC: UITableViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "EditLesson" {
             if let lessonDetailTVC = segue.destination as? LessonDetailTVC {
-                lessonDetailTVC.lesson = sender as! LessonNode
+                lessonDetailTVC.lesson = (sender as! LessonNode)
             }
         }
 

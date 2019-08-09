@@ -150,7 +150,7 @@ class CourseUnitsListTVC: UITableViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "ShowUnitLessons" {
             if let unitLessonListTVC = segue.destination as? UnitLessonListTVC {
-                unitLessonListTVC.unit = sender as! CourseUnit
+                unitLessonListTVC.unit = (sender as! CourseUnit)
             }
         }
     }
