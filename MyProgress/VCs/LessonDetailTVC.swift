@@ -100,7 +100,7 @@ class LessonDetailTVC: UITableViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        if isMovingFromParentViewController {
+        if isMovingFromParent {
             
             // if node isDirty, save it and all nodes upstream, compute new % complete
             for node in progressComponents {

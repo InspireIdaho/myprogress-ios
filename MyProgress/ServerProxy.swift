@@ -67,7 +67,7 @@ class ServerProxy {
         let jsonEncoder = JSONEncoder()
 
         if let data = try? jsonEncoder.encode(node) {
-            if let json = try? JSONSerialization.jsonObject(with: data) as? [String:Any] {
+            if let json = ((try? JSONSerialization.jsonObject(with: data) as? [String:Any]) as [String : Any]??) {
                 makeAPIcall(method: .post, json: json) { response in
                     if let json = response.data {
                         let jsonDecoder = JSONDecoder()
@@ -91,7 +91,7 @@ class ServerProxy {
         AF.request(deleteURL, method: .delete, headers: authHeaders).responseJSON { response in
             
             if let possData = response.data {
-                if let json = try? JSONSerialization.jsonObject(with: possData, options: .allowFragments) as? Dictionary<String, Any> {
+                if let json = ((try? JSONSerialization.jsonObject(with: possData, options: .allowFragments) as? Dictionary<String, Any>) as Dictionary<String, Any>??) {
                 
                     if let deletedID = json?["_id"] as? String {
                     if deletedID == node.dbID {
@@ -126,7 +126,7 @@ class ServerProxy {
         let jsonEncoder = JSONEncoder()
         
         if let data = try? jsonEncoder.encode(updateObj) {
-            if let json = try? JSONSerialization.jsonObject(with: data) as? [String:Any] {
+            if let json = ((try? JSONSerialization.jsonObject(with: data) as? [String:Any]) as [String : Any]??) {
 
                 AF.request(updateURL, method: .patch,  parameters: json, encoding: JSONEncoding.default ,headers: authHeaders).responseJSON { response in
                     
@@ -135,7 +135,7 @@ class ServerProxy {
                     
                     if let possData = response.data {
                         
-                        if let json = try? JSONSerialization.jsonObject(with: possData, options: .allowFragments) as? Dictionary<String, Any> {
+                        if let json = ((try? JSONSerialization.jsonObject(with: possData, options: .allowFragments) as? Dictionary<String, Any>) as Dictionary<String, Any>??) {
                             
                             if let updatedID = json?["_id"] as? String {
                                 if updatedID == node.dbID {
@@ -181,7 +181,7 @@ class ServerProxy {
         AF.request(url!, method: .get,headers: authHeaders).responseJSON { response in
             if let possData = response.data {
                 
-                if let json = try? JSONSerialization.jsonObject(with: possData, options: .allowFragments) as? Dictionary<String, Any> {
+                if let json = ((try? JSONSerialization.jsonObject(with: possData, options: .allowFragments) as? Dictionary<String, Any>) as Dictionary<String, Any>??) {
                 if let _ = json?["email"] as? String {
                     // TODO: change success closure to accept email
                     // TODO: change to single closure with bool params for success/fail?
