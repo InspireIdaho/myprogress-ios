@@ -48,7 +48,7 @@ struct Config {
              */
             // this workaround is not advised in production apps, nor allowed if deployed via iTunes
             return Config(displayName: "Development",
-                          serverUrl: "http://localhost:3000",
+                          serverUrl: "http://localhost:8080",
                           authHeaderKey: "x-auth")
         case .staging:
             // BTW, this is a free-tier Heroku service;  it "sleeps" after 30 mins of inactivity
