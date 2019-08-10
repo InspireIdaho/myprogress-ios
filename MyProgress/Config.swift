@@ -27,7 +27,7 @@ struct Config {
     // MARK: - Class-level Properties
 
     /// change this before build
-    static var current: Environment = .staging
+    static var current: Environment = .dev
     
     /**
      Provide definitions for config values per each environment
@@ -48,8 +48,8 @@ struct Config {
              */
             // this workaround is not advised in production apps, nor allowed if deployed via iTunes
             return Config(displayName: "Development",
-                          serverUrl: "http://localhost:8080",
-                          authHeaderKey: "x-auth")
+                          serverUrl: "http://localhost:8080/api/",
+                          authHeaderKey: "Authentication-Info")
         case .staging:
             // BTW, this is a free-tier Heroku service;  it "sleeps" after 30 mins of inactivity
             return Config(displayName: "Staging",

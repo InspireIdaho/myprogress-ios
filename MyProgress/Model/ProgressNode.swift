@@ -31,7 +31,7 @@ class ProgressNode : Codable {
     enum CodingKeys: String, CodingKey {
         case indexPath = "indexPath"
         case completedOn = "completedOn"
-        case dbID = "_id"
+        case dbID = "id"
     }
     
     // MARK: - Class-level properties
@@ -65,8 +65,9 @@ class ProgressNode : Codable {
     
     /// optional reference to database ID to sync with server representation
     /// required to delete or update objects
-    var dbID: ObjectID?
-    
+    //var dbID: ObjectID?  // if using Mongo
+    var dbID: Int?          // MySQL id
+
     // MARK: - Computed properties
     
     /// helper computed property
@@ -84,7 +85,7 @@ class ProgressNode : Codable {
         dateFormatter.dateStyle = .short
         let completedString = hasCompleted ? "\(dateFormatter.string(from: completedOn!))" : "TODO"
         let dirtyString = hasChanges ? "Changed" : "UnChanged"
-        let dbString = (dbID != nil) ? dbID! : "noID"
+        let dbString = (dbID != nil) ? "id(\(dbID!))" : "noID"
         return "ProgressNode-\(indexPath)-\(completedString)-\(dirtyString)-\(dbString)"
     }
 
@@ -178,9 +179,10 @@ class ProgressNode : Codable {
             if hasDBRep {
                 // if dbID exists, must delete from server
                 ServerProxy.deleteProgressNode(self)
+                self.dbID = nil     // don't delete from registry, as it contains course tree
             } else {
                 //if no dbID, no need to do anything,
-                print("no need to do anything")
+                print("no need to do anything for: \(self)")
             }
         }
     }
@@ -190,9 +192,13 @@ class ProgressNode : Codable {
 
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        indexPath = try values.decode(IndexPath.self, forKey: .indexPath)
+        let path: String = try values.decode(String.self, forKey: .indexPath)
+        let path2 = path.trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
+        let path3 = path2.filter { $0 != " " }
+        let elems = path3.split(separator: ",").map { Int($0)! }
+        indexPath = IndexPath(indexes: elems)
         completedOn = try values.decode(Date.self, forKey: .completedOn)
-        dbID = try? values.decode(ObjectID.self, forKey: .dbID)
+        dbID = try? values.decode(Int.self, forKey: .dbID)
         children = []
         parent = nil
         
@@ -209,7 +215,8 @@ class ProgressNode : Codable {
         // all internal nodes in graph will calc
         if (hasCompleted) {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(indexPath, forKey: .indexPath)
+            let foo = indexPath.description
+            try container.encode(foo, forKey: .indexPath)
             try container.encode(completedOn, forKey: .completedOn)
             try container.encode(dbID, forKey: .dbID)
         }

@@ -85,8 +85,9 @@ class SettingsVC: UIViewController {
         }
     }
     
+    // TODO: remove this
     @IBAction func register(_ sender: Any) {
-        registerCredentials()
+        //registerCredentials()
     }
     
     @IBAction func login(_ sender: Any) {
@@ -127,7 +128,7 @@ class SettingsVC: UIViewController {
             if emailTextField.text != nil &&
                 (emailTextField.text!.lengthOfBytes(using: String.Encoding.ascii) > 3) &&
                 passwordTextField.text != nil &&
-                (passwordTextField.text!.lengthOfBytes(using:String.Encoding.ascii) >= 7) {
+                (passwordTextField.text!.lengthOfBytes(using:String.Encoding.ascii) >= 6) {
                 loginButton.isEnabled = true
                 registerButton.isEnabled = true
             }
@@ -150,41 +151,41 @@ class SettingsVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func registerCredentials() {
-        guard let email = emailTextField.text else { return  }
-        guard let password = passwordTextField.text else { return  }
-
-        var params = Parameters()
-        params["email"] = email
-        params["password"] = password
-        
-        ServerProxy.makeUsersAPIcall(method: .post, json: params) { response in
-            if let headers = response.response?.allHeaderFields as Dictionary? {
-                //print(headers)
-                let authKey = Config.env.authHeaderKey
-                if let authToken = headers[authKey] as? String {
-                    // success
-                    let user = User(email: email)
-                    user.token = authToken
-                    user.save()
-                    user.password = password
-                    user.shouldSavePassword = self.savePasswordSwitch.isOn
-                    User.principle = user
-                    
-                    self.messageLabel.text = "Registration Successful"
-                    self.configureUIFor(user: user)
-                    self.updateNavButtons()
-                    //self.updateLoginButton()
-
-                } else {
-                    self.messageLabel.text = "Could not register credentials"
-                }
-            } else {
-                print("convert error")
-            }
-            
-        }
-    }
+//    func registerCredentials() {
+//        guard let email = emailTextField.text else { return  }
+//        guard let password = passwordTextField.text else { return  }
+//
+//        var params = Parameters()
+//        params["email"] = email
+//        params["password"] = password
+//
+//        ServerProxy.makeUsersAPIcall(method: .post, json: params) { response in
+//            if let headers = response.response?.allHeaderFields as Dictionary? {
+//                //print(headers)
+//                let authKey = Config.env.authHeaderKey
+//                if let authToken = headers[authKey] as? String {
+//                    // success
+//                    let user = User(email: email)
+//                    user.token = authToken
+//                    user.save()
+//                    user.password = password
+//                    user.shouldSavePassword = self.savePasswordSwitch.isOn
+//                    User.principle = user
+//
+//                    self.messageLabel.text = "Registration Successful"
+//                    self.configureUIFor(user: user)
+//                    self.updateNavButtons()
+//                    //self.updateLoginButton()
+//
+//                } else {
+//                    self.messageLabel.text = "Could not register credentials"
+//                }
+//            } else {
+//                print("convert error")
+//            }
+//
+//        }
+//    }
     
     
     func login() {
@@ -194,8 +195,9 @@ class SettingsVC: UIViewController {
         var params = Parameters()
         params["email"] = email
         params["password"] = password
+        let loginCred = UserLogin(email: email, password: password)
 
-        ServerProxy.makeUsersLoginCall(method: .post, json: params) { response in
+        ServerProxy.loginUser(method: .post, cred: loginCred, json: params) { response in
             if let headers = response.response?.allHeaderFields as Dictionary? {
                 //print(headers)
                 let authKey = Config.env.authHeaderKey
@@ -220,7 +222,9 @@ class SettingsVC: UIViewController {
                     self.messageLabel.text = "Login Successful"
                     self.updateNavButtons()
                     
-                    ServerProxy.getAllProgressNodes() { }
+                    ServerProxy.getAllProgressNodes() {
+                        self.dismiss(animated: true, completion: nil)
+                    }
 
                 } else {
                     self.messageLabel.text = "Could not login"

@@ -29,7 +29,7 @@ class CourseUnitsListTVC: UITableViewController {
             ProgressNode.createProgressGraph(course: course)
 
             if User.principle != nil {
-                ServerProxy.isAuthenticated(
+                ServerProxy.isUserAuthenticated(
                     success: {
                         ServerProxy.getAllProgressNodes {
                             //print("finished fetch, back in UI")
