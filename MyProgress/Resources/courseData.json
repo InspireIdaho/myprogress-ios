@@ -2,140 +2,386 @@
     "title" : "App Dev with Swift",
     "version" :  1,
     "units" :
-[
-  {
-    "title" : "Unit 1: Getting Started",
-    "indexPath" : { "indexes" : [1] },
-    "lessons" : [
-      {
-        "title" : "Intro to Swift and Playgrounds",
-        "hasLab" : true,
-        "reviewQuestions" : 4,
-        "indexPath" : { "indexes" : [1, 1] }
-      },
-      {
-        "title" : "Constants, Vars, and Data Types",
-        "hasLab" : true,
-        "reviewQuestions" : 7,
-        "indexPath" : { "indexes" : [1, 2] }
-      },
-      {
-        "title" : "Operators",
-        "hasLab" : true,
-        "reviewQuestions" : 6,
-        "indexPath" : { "indexes" : [1, 3] }
-      },
-      {
-        "title" : "Control Flow",
-        "hasLab" : true,
-        "reviewQuestions" : 10,
-        "indexPath" : { "indexes" : [1, 4] }
-      },
-      {
-        "title" : "Xcode",
-        "hasLab" : false,
-        "reviewQuestions" : 4,
-        "indexPath" : { "indexes" : [1, 5] }
-      },
-      {
-        "title" : "Building, Running, Debugging",
-        "hasLab" : true,
-        "reviewQuestions" : 3,
-        "indexPath" : { "indexes" : [1, 6] }
-      },
-      {
-        "title" : "Documentation",
-        "hasLab" : true,
-        "reviewQuestions" : 0,
-        "indexPath" : { "indexes" : [1, 7] }
-      },
-      {
-        "title" : "Interface Builder Basics",
-        "hasLab" : false,
-        "reviewQuestions" : 6,
-        "indexPath" : { "indexes" : [1, 8] }
-      },
-      {
-        "title" : "Guided Project - Light",
-        "hasLab" : false,
-        "reviewQuestions" : 0,
-        "indexPath" : { "indexes" : [1, 9] }
-      }
-    ],
-  },
- {
-    "title" : "Unit 2: Intro to UIKit",
-    "indexPath" : { "indexes" : [2] },
-    "lessons" : [
-      {
-        "title" : "Strings",
-        "hasLab" : true,
-        "reviewQuestions" : 5,
-        "indexPath" : { "indexes" : [2, 1] }
-      },
-      {
-        "title" : "Functions",
-        "hasLab" : true,
-        "reviewQuestions" : 4,
-        "indexPath" : { "indexes" : [2, 2] }
-      },
-      {
-        "title" : "Structures",
-        "hasLab" : true,
-        "reviewQuestions" : 3,
-        "indexPath" : { "indexes" : [2, 3] }
-      },
-      {
-        "title" : "Classes, Inheritance",
-        "hasLab" : true,
-        "reviewQuestions" : 3,
-        "indexPath" : { "indexes" : [2, 4] }
-      },
-      {
-        "title" : "Collections",
-        "hasLab" : true,
-        "reviewQuestions" : 2,
-        "indexPath" : { "indexes" : [2, 5] }
-      },
-      {
-        "title" : "Loops",
-        "hasLab" : true,
-        "reviewQuestions" : 2,
-        "indexPath" : { "indexes" : [2, 6] }
-      },
-      {
-        "title" : "Intro to UIKit",
-        "hasLab" : true,
-        "reviewQuestions" : 5,
-        "indexPath" : { "indexes" : [2, 7] }
-      },
-      {
-        "title" : "Displaying Data",
-        "hasLab" : true,
-        "reviewQuestions" : 0,
-        "indexPath" : { "indexes" : [2, 8] }
-      },
-      {
-        "title" : "Controls in Action",
-        "hasLab" : true,
-        "reviewQuestions" : 6,
-        "indexPath" : { "indexes" : [2, 9] }
-      },
-      {
-        "title" : "Auto Layout and Stack Views",
-        "hasLab" : true,
-        "reviewQuestions" : 5,
-        "indexPath" : { "indexes" : [2, 10] }
-      },
-      {
-        "title" : "Guided Project: Apple Pie",
-        "hasLab" : false,
-        "reviewQuestions" : 0,
-        "indexPath" : { "indexes" : [2, 11] }
-      },
-
-    ],
-  }
-]
-
+    [
+        {
+            "title" : "Unit 1: Getting Started",
+            "indexPath" : { "indexes" : [1] },
+            "lessons" : [
+                {
+                    "title" : "Intro to Swift and Playgrounds",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [1, 1] }
+                },
+                {
+                    "title" : "Constants, Vars, and Data Types",
+                    "hasLab" : true,
+                    "reviewQuestions" : 7,
+                    "indexPath" : { "indexes" : [1, 2] }
+                },
+                {
+                    "title" : "Operators",
+                    "hasLab" : true,
+                    "reviewQuestions" : 6,
+                    "indexPath" : { "indexes" : [1, 3] }
+                },
+                {
+                    "title" : "Control Flow",
+                    "hasLab" : true,
+                    "reviewQuestions" : 10,
+                    "indexPath" : { "indexes" : [1, 4] }
+                },
+                {
+                    "title" : "Xcode",
+                    "hasLab" : false,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [1, 5] }
+                },
+                {
+                    "title" : "Building, Running, Debugging",
+                    "hasLab" : true,
+                    "reviewQuestions" : 3,
+                    "indexPath" : { "indexes" : [1, 6] }
+                },
+                {
+                    "title" : "Documentation",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [1, 7] }
+                },
+                {
+                    "title" : "Interface Builder Basics",
+                    "hasLab" : false,
+                    "reviewQuestions" : 6,
+                    "indexPath" : { "indexes" : [1, 8] }
+                },
+                {
+                    "title" : "Guided Project - Light",
+                    "hasLab" : false,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [1, 9] }
+                }
+            ],
+        },
+        {
+            "title" : "Unit 2: Intro to UIKit",
+            "indexPath" : { "indexes" : [2] },
+            "lessons" : [
+                {
+                    "title" : "Strings",
+                    "hasLab" : true,
+                    "reviewQuestions" : 5,
+                    "indexPath" : { "indexes" : [2, 1] }
+                },
+                {
+                    "title" : "Functions",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [2, 2] }
+                },
+                {
+                    "title" : "Structures",
+                    "hasLab" : true,
+                    "reviewQuestions" : 3,
+                    "indexPath" : { "indexes" : [2, 3] }
+                },
+                {
+                    "title" : "Classes, Inheritance",
+                    "hasLab" : true,
+                    "reviewQuestions" : 3,
+                    "indexPath" : { "indexes" : [2, 4] }
+                },
+                {
+                    "title" : "Collections",
+                    "hasLab" : true,
+                    "reviewQuestions" : 2,
+                    "indexPath" : { "indexes" : [2, 5] }
+                },
+                {
+                    "title" : "Loops",
+                    "hasLab" : true,
+                    "reviewQuestions" : 2,
+                    "indexPath" : { "indexes" : [2, 6] }
+                },
+                {
+                    "title" : "Intro to UIKit",
+                    "hasLab" : true,
+                    "reviewQuestions" : 5,
+                    "indexPath" : { "indexes" : [2, 7] }
+                },
+                {
+                    "title" : "Displaying Data",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [2, 8] }
+                },
+                {
+                    "title" : "Controls in Action",
+                    "hasLab" : true,
+                    "reviewQuestions" : 6,
+                    "indexPath" : { "indexes" : [2, 9] }
+                },
+                {
+                    "title" : "Auto Layout and Stack Views",
+                    "hasLab" : true,
+                    "reviewQuestions" : 5,
+                    "indexPath" : { "indexes" : [2, 10] }
+                },
+                {
+                    "title" : "Guided Project: Apple Pie",
+                    "hasLab" : false,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [2, 11] }
+                },
+                
+            ],
+        },
+        {
+            "title" : "Unit 3: Navigation and Workflows",
+            "indexPath" : { "indexes" : [3] },
+            "lessons" : [
+                {
+                    "title" : "Optionals",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [3, 1] }
+                },
+                {
+                    "title" : "Type Casting and Inspection",
+                    "hasLab" : true,
+                    "reviewQuestions" : 3,
+                    "indexPath" : { "indexes" : [3, 2] }
+                },
+                {
+                    "title" : "Guard",
+                    "hasLab" : true,
+                    "reviewQuestions" : 2,
+                    "indexPath" : { "indexes" : [3, 3] }
+                },
+                {
+                    "title" : "Constant and Variable Scope",
+                    "hasLab" : true,
+                    "reviewQuestions" : 3,
+                    "indexPath" : { "indexes" : [3, 4] }
+                },
+                {
+                    "title" : "Enumerations",
+                    "hasLab" : true,
+                    "reviewQuestions" : 3,
+                    "indexPath" : { "indexes" : [3, 5] }
+                },
+                {
+                    "title" : "Segues and Nav Controllers",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [3, 6] }
+                },
+                {
+                    "title" : "Tab Bar Controllers",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [3, 7] }
+                },
+                {
+                    "title" : "View Controller Life Cycle",
+                    "hasLab" : true,
+                    "reviewQuestions" : 5,
+                    "indexPath" : { "indexes" : [3, 8] }
+                },
+                {
+                    "title" : "Building Simple Workflows",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [3, 9] }
+                },
+                {
+                    "title" : "Project: Personality Quiz",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [3, 10] }
+                },
+            ],
+        },
+        {
+            "title" : "Unit 3A: Building AR Apps",
+            "indexPath" : { "indexes" : [4] },
+            "lessons" : [
+                {
+                    "title" : "Augmented Reality Template",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [4, 1] }
+                },
+                {
+                    "title" : "Intro to SceneKit",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [4, 2] }
+                },
+                {
+                    "title" : "Finding Flat Surfaces",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [4, 3] }
+                },
+                {
+                    "title" : "Interacting with AR",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [4, 4] }
+                },
+                {
+                    "title" : "Image Recognition in ARKit",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [4, 5] }
+                },
+                {
+                    "title" : "Project: AR Drawing",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [4, 6] }
+                }
+            ],
+        },
+        {
+            "title" : "Unit 4: Tables and Persistence",
+            "indexPath" : { "indexes" : [5] },
+            "lessons" : [
+                {
+                    "title" : "Protocols",
+                    "hasLab" : true,
+                    "reviewQuestions" : 6,
+                    "indexPath" : { "indexes" : [5, 1] }
+                },
+                {
+                    "title" : "App Anatomy and Life Cycle",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [5, 2] }
+                },
+                {
+                    "title" : "Model View Controller",
+                    "hasLab" : true,
+                    "reviewQuestions" : 5,
+                    "indexPath" : { "indexes" : [5, 3] }
+                },
+                {
+                    "title" : "Scroll Views",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [5, 4] }
+                },
+                {
+                    "title" : "Table Views",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [5, 5] }
+                },
+                {
+                    "title" : "Intermediate Table Views",
+                    "hasLab" : true,
+                    "reviewQuestions" : 2,
+                    "indexPath" : { "indexes" : [5, 6] }
+                },
+                {
+                    "title" : "Saving Data",
+                    "hasLab" : true,
+                    "reviewQuestions" : 3,
+                    "indexPath" : { "indexes" : [5, 7] }
+                },
+                {
+                    "title" : "System View Controllers",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [5, 8] }
+                },
+                {
+                    "title" : "Building Complex Input Screens",
+                    "hasLab" : true,
+                    "reviewQuestions" : 3,
+                    "indexPath" : { "indexes" : [5, 9] }
+                },
+                {
+                    "title" : "Project: List",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [5, 10] }
+                },
+            ],
+        },
+        {
+            "title" : "Unit 5: Working with the Web",
+            "indexPath" : { "indexes" : [6] },
+            "lessons" : [
+                {
+                    "title" : "Closures",
+                    "hasLab" : true,
+                    "reviewQuestions" : 5,
+                    "indexPath" : { "indexes" : [6, 1] }
+                },
+                {
+                    "title" : "Extensions",
+                    "hasLab" : true,
+                    "reviewQuestions" : 3,
+                    "indexPath" : { "indexes" : [6, 2] }
+                },
+                {
+                    "title" : "Practical Animation",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [6, 3] }
+                },
+                {
+                    "title" : "Web: HTTP and URL Session",
+                    "hasLab" : true,
+                    "reviewQuestions" : 5,
+                    "indexPath" : { "indexes" : [6, 4] }
+                },
+                {
+                    "title" : "Web: Decoding JSON",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [6, 5] }
+                },
+                {
+                    "title" : "Web: Concurrency",
+                    "hasLab" : true,
+                    "reviewQuestions" : 4,
+                    "indexPath" : { "indexes" : [6, 6] }
+                },
+                {
+                    "title" : "Project: Restaurant",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [6, 7] }
+                },
+            ],
+        },
+        {
+            "title" : "Unit 6: Prototyping and Planning",
+            "indexPath" : { "indexes" : [7] },
+            "lessons" : [
+                {
+                    "title" : "App Personality",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [7, 1] }
+                },
+                {
+                    "title" : "The Design Cycle",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [7, 2] }
+                },
+                {
+                    "title" : "Project Planning",
+                    "hasLab" : true,
+                    "reviewQuestions" : 0,
+                    "indexPath" : { "indexes" : [7, 3] }
+                },
+            ],
+        },
+    ]
+    
 }
