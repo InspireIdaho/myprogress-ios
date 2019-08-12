@@ -27,7 +27,7 @@ struct Config {
     // MARK: - Class-level Properties
 
     /// change this before build
-    static var current: Environment = .dev
+    static var current: Environment = .staging
     
     /**
      Provide definitions for config values per each environment
@@ -53,8 +53,8 @@ struct Config {
         case .staging:
             // BTW, this is a free-tier Heroku service;  it "sleeps" after 30 mins of inactivity
             return Config(displayName: "Staging",
-                          serverUrl: "https://inspire-idaho-progress-api.herokuapp.com",
-                          authHeaderKey: "X-Auth")
+                          serverUrl: "https://inspire-idaho-vapor-api.herokuapp.com/api/",
+                          authHeaderKey: "Authentication-Info")
         case .prod:
             return Config(displayName: "Production",
                           serverUrl: "https:/to-be-determined.inspireidaho.com",
